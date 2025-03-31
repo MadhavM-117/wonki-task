@@ -57,5 +57,22 @@ class FoodWaste(FoodWasteBase, table=True):
     owner_id: int = Field(foreign_key="user.id", ondelete="CASCADE")
     category_id: int = Field(foreign_key="category.id", ondelete="RESTRICT")
 
-    owner: User | None = Relationship(back_populates="food_waste")
-    category: Category | None = Relationship(back_populates="food_waste")
+    owner: User = Relationship(back_populates="food_waste")
+    category: Category = Relationship(back_populates="food_waste")
+
+
+class FoodWastePublic(FoodWasteBase):
+    id: int
+    owner: str
+    category: str
+
+
+class FoodWasteCreate(FoodWasteBase):
+    owner_id: int
+    category_id: int
+
+
+class FoodWasteUpdate(FoodWasteBase):
+    category_id: Optional[int] = Field(
+        default=None, foreign_key="category.id", ondelete="RESTRICT"
+    )

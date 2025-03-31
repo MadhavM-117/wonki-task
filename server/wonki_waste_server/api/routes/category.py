@@ -1,6 +1,6 @@
 from typing import Annotated, Sequence
 
-from fastapi import APIRouter, HTTPException, Path
+from fastapi import APIRouter, HTTPException, Path, status
 
 from wonki_waste_server.api.deps import CurrentUser, SessionDep
 from wonki_waste_server.db.category import (
@@ -25,7 +25,7 @@ def create_a_category(category_in: CategoryCreate, session: SessionDep, _: Curre
     category = get_category_by_name(session=session, name=category_in.name)
     if category:
         raise HTTPException(
-            status_code=400,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail="A category with this name already exists in the system",
         )
 
@@ -42,7 +42,7 @@ def get_category(
     category = get_category_by_id(session=session, id=category_id)
     if not category:
         raise HTTPException(
-            status_code=400,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail="Couldn't find the category with the specified id",
         )
     return category
@@ -58,7 +58,7 @@ def update_category(
     category = get_category_by_id(session=session, id=category_id)
     if not category:
         raise HTTPException(
-            status_code=400,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail="Couldn't find the category with the specified id",
         )
 
