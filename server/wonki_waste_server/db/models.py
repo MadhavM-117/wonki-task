@@ -48,6 +48,7 @@ class CategoryUpdate(CategoryBase):
 
 
 class FoodWasteBase(SQLModel):
+    item_name: str = Field(max_length=255)
     surplus_weight_kg: Decimal = Field(default=0, max_digits=15)
     bbe_date: date = Field()
 
