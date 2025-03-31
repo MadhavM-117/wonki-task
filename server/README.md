@@ -4,12 +4,12 @@
 
 ### User
 
-| Field    | Type | Description             |
-|----------|------|-------------------------|
-| id       | int  | primary key, serial     |
-| name     | text | user's full name        |
-| username | text | unique user name        |
-| password | text | hash of user's password |
+| Field     | Type | Description             |
+|-----------|------|-------------------------|
+| id        | int  | primary key, serial     |
+| full_name | text | user's full name        |
+| username  | text | unique user name        |
+| password  | text | hash of user's password |
 
 ### Category
 
@@ -25,7 +25,7 @@
 | id                | int              | primary key, serial                                   |
 | owner_id          | int              | foreign key, pointing to which user entered the value |
 | category_id       | int              | foreign key, pointing to category                     |
-| surplus_weight_kg | double precision | surplus weight                                        |
+| surplus_weight_kg | double precision | surplus weight (atleast 10 digits)                    |
 | bbe_date          | date             | best before / expiry date                             |
 
 
