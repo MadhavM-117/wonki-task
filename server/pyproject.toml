@@ -1,0 +1,52 @@
+[project]
+name = "wonki-waste-server"
+version = "0.0.1"
+description = "Backend server for the Wonki Waste Tracker"
+authors = [
+    {name = "Madhav M.", email = "madhavmanoj117@gmail.com"},
+]
+dependencies = [
+    "fastapi[standard]"
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "All rights reserved."}
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+    "coverage[toml]",
+    "ruff",
+]
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+
+[tool.pdm]
+distribution = true
+
+[tool.ruff]
+include = ["pyproject.toml", "src/**/*.py", "tests/**/*.py"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+
+[tool.coverage.run]
+source = ["wonki_waste_server"]
+omit = ["*/__init__.py", "tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+    "raise ImportError",
+]
