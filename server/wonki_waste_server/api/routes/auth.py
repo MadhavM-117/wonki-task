@@ -53,5 +53,4 @@ def register_user(session: SessionDep, user_in: UserCreate):
             detail="The user with this username already exists in the system",
         )
     user_create = UserCreate.model_validate(user_in)
-    user = create_user(session=session, user_create=user_create)
-    return user
+    return create_user(session=session, user_create=user_create)
