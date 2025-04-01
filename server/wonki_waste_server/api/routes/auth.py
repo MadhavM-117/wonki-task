@@ -14,7 +14,7 @@ from wonki_waste_server.db.user import authenticate, create_user, get_user_by_us
 router = APIRouter(prefix="/auth")
 
 
-@router.post("/token")
+@router.post("/token", response_model=Token)
 def login_access_token(
     session: SessionDep, form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
 ) -> Token:

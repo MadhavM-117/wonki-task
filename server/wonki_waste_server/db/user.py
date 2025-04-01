@@ -15,6 +15,9 @@ def create_user(*, session: Session, user_create: UserCreate) -> User:
     session.refresh(db_obj)
     return db_obj
 
+def get_user_by_id(*, session: Session, id: int) -> Optional[User]:
+    statement = select(User).where(User.id == id)
+    return session.exec(statement).first()
 
 def get_user_by_username(*, session: Session, username: str) -> Optional[User]:
     statement = select(User).where(User.username == username)
