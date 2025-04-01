@@ -1,12 +1,11 @@
 from csv import DictReader
 from datetime import date
-from decimal import Decimal
 from os import path
 
 from sqlmodel import Session
 
 from wonki_waste_server.api.security import get_password_hash
-from wonki_waste_server.db import engine
+from wonki_waste_server.db import create_db_and_tables, engine
 from wonki_waste_server.db.models import Category, FoodWaste, User
 
 
@@ -60,7 +59,7 @@ def store_data_from_csv(session: Session):
             food_waste = FoodWaste(
                 item_name=row["item_name"],
                 category_id=int(row["category_id"]),
-                surplus_weight_kg=Decimal(row["weight_kg"]),
+                surplus_weight_kg=float(row["weight_kg"]),
                 bbe_date=date.fromisoformat(row["bbe_date"]),
                 owner_id=int(row["owner_id"]),
             )
@@ -71,6 +70,7 @@ def store_data_from_csv(session: Session):
 
 def main():
     with Session(engine) as session:
+        create_db_and_tables()
         create_users(session)
         create_categories(session)
         store_data_from_csv(session)

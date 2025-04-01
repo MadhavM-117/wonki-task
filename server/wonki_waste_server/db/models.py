@@ -1,7 +1,8 @@
 from datetime import date
-from decimal import Decimal
 from typing import List, Optional
 
+from pydantic import field_validator
+from sqlalchemy.dialects.postgresql import DOUBLE_PRECISION
 from sqlmodel import Field, Relationship, SQLModel
 
 
@@ -35,7 +36,7 @@ class Category(CategoryBase, table=True):
     food_waste: List["FoodWaste"] = Relationship(back_populates="category")
 
 
-class CategoryPublic(UserBase):
+class CategoryPublic(CategoryBase):
     id: int
 
 
@@ -49,7 +50,7 @@ class CategoryUpdate(CategoryBase):
 
 class FoodWasteBase(SQLModel):
     item_name: str = Field(max_length=255)
-    surplus_weight_kg: Decimal = Field(default=0, max_digits=15)
+    surplus_weight_kg: float = Field(default=0, sa_type=DOUBLE_PRECISION)
     bbe_date: date = Field()
 
 
@@ -66,6 +67,20 @@ class FoodWastePublic(FoodWasteBase):
     id: int
     owner: str
     category: str
+
+    @field_validator("owner", mode="before")
+    def get_owner_name(cls, v):
+        if type(v) == User:
+            return v.full_name
+
+        return v
+
+    @field_validator("category", mode="before")
+    def get_category_name(cls, v):
+        if type(v) == Category:
+            return v.name
+
+        return v
 
 
 class FoodWasteCreate(FoodWasteBase):

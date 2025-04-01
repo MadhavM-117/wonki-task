@@ -37,3 +37,5 @@ The APIs are run using FastAPI.
 - Performant
 - Lightweight
 - Easy to setup and use
+
+Refer: https://github.com/fastapi/full-stack-fastapi-template
