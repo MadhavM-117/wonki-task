@@ -1,6 +1,6 @@
 import React from "react";
 import { useFoodWasteData } from "./hooks";
-import { DataTable } from "./data-table";
+import { DataTable } from "@/components/custom/data-table";
 import { columns } from "./columns";
 
 export const UserHome: React.FC = () => {

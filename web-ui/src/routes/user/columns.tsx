@@ -1,29 +1,43 @@
 import { FoodWasteEntry } from "@/models";
 import { ColumnDef } from "@tanstack/react-table";
 
+import { DataTableColumnHeader } from "@/components/custom/data-table/column-header";
+
 export const columns: ColumnDef<FoodWasteEntry>[] = [
   {
     accessorKey: "id",
-    header: "Id",
-  },
-  {
-    accessorKey: "owner",
-    header: "Owner",
-  },
-  {
-    accessorKey: "category",
-    header: "Category",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Id" />
+    ),
   },
   {
     accessorKey: "item_name",
-    header: "Item Name",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Item Name" />
+    ),
+  },
+  {
+    accessorKey: "category",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Category" />
+    ),
   },
   {
     accessorKey: "surplus_weight_kg",
-    header: "Surplus Weight (kg)",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Surplus Weight (kg)" />
+    ),
   },
   {
     accessorKey: "bbe_date",
-    header: "Best Before",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Best Before" />
+    ),
+  },
+  {
+    accessorKey: "owner",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Owner" />
+    ),
   },
 ];
