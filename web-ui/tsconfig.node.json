@@ -23,9 +23,7 @@
     /* path alias for shadcn/ui */
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["vite.config.ts"]
