@@ -20,6 +20,24 @@ export const login = async (form: FormData) => {
     });
 };
 
+export const signup = async (form: FormData) => {
+  return await fetch(`${API_URL}/auth/signup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(Object.fromEntries(form.entries())),
+  })
+    .then((res) => {
+      if (res.ok) return res.json();
+      throw res;
+    })
+    .catch((error) => {
+      console.error("There was an error signing up.", error);
+      return undefined;
+    });
+};
+
 export const whoAmI = async () => {
   const token = localStorage.getItem("token");
 

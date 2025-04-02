@@ -5,8 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NavLink } from "react-router";
 
-export const SignupForm: React.FC<React.ComponentProps<"div">> = ({
+export interface SignupFormProps extends React.ComponentProps<"div"> {
+  handleSubmit: (f: FormData) => Promise<void>;
+}
+
+export const SignupForm: React.FC<SignupFormProps> = ({
   className,
+  handleSubmit,
   ...props
 }) => {
   return (
@@ -16,12 +21,30 @@ export const SignupForm: React.FC<React.ComponentProps<"div">> = ({
           <CardTitle className="text-2xl">Signup</CardTitle>
         </CardHeader>
         <CardContent>
-          <form>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target as HTMLFormElement);
+
+              handleSubmit(formData);
+            }}
+          >
             <div className="flex flex-col gap-6">
+              <div className="grid gap-3">
+                <Label htmlFor="full_name">Full Name</Label>
+                <Input
+                  id="full_name"
+                  name="full_name"
+                  type="text"
+                  placeholder="User Name"
+                  required
+                />
+              </div>
               <div className="grid gap-3">
                 <Label htmlFor="username">Username</Label>
                 <Input
                   id="username"
+                  name="username"
                   type="text"
                   placeholder="user123"
                   required
@@ -29,11 +52,16 @@ export const SignupForm: React.FC<React.ComponentProps<"div">> = ({
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" required />
+                <Input id="password" name="password" type="password" required />
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="confirm-password">Confirm Password</Label>
-                <Input id="confirm-password" type="password" required />
+                <Label htmlFor="confirm_password">Confirm Password</Label>
+                <Input
+                  id="confirm_password"
+                  name="confirm_password"
+                  type="password"
+                  required
+                />
               </div>
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">
