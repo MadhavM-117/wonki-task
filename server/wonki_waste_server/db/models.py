@@ -83,6 +83,10 @@ class FoodWastePublic(FoodWasteBase):
         return v
 
 
+class FoodWasteCreateReq(FoodWasteBase):
+    category_id: int
+
+
 class FoodWasteCreate(FoodWasteBase):
     owner_id: int
     category_id: int

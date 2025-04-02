@@ -7,11 +7,16 @@ from wonki_waste_server.api.deps import CurrentUser, SessionDep
 from wonki_waste_server.db.category import get_category_by_id
 from wonki_waste_server.db.food_waste import (
     FoodWasteOrdering,
+    create_food_waste,
     delete_food_waste,
     get_filtered_foodwaste,
     get_food_waste_by_id,
 )
-from wonki_waste_server.db.models import FoodWastePublic
+from wonki_waste_server.db.models import (
+    FoodWasteCreate,
+    FoodWasteCreateReq,
+    FoodWastePublic,
+)
 from wonki_waste_server.db.user import get_user_by_id
 
 router = APIRouter(prefix="/food-waste")
@@ -136,3 +141,20 @@ def delete_foodwaste(
     delete_food_waste(session=session, food_waste=food_waste)
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.post("/", response_model=FoodWastePublic)
+def create_a_foodwaste_entry(
+    food_waste_in: FoodWasteCreateReq, session: SessionDep, current_user: CurrentUser
+):
+    category = get_category_by_id(session=session, id=food_waste_in.category_id)
+    if not category:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Could not find a category with the specified id",
+        )
+
+    food_waste_create = FoodWasteCreate.model_validate(
+        food_waste_in, update={"owner_id": current_user.id}
+    )
+    return create_food_waste(session=session, food_waste_create=food_waste_create)
