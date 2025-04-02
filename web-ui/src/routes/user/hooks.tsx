@@ -1,5 +1,4 @@
 import React, { SetStateAction } from "react";
-import { API_URL } from "@/constants";
 import { FoodWasteEntry } from "@/models";
 import { useState, useEffect } from "react";
 import { getAllFoodWaste } from "@/utils/api";
