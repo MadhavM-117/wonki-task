@@ -1,5 +1,5 @@
 import { Separator } from "@radix-ui/react-separator";
-import React from "react";
+import React, { useEffect } from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import {
@@ -10,9 +10,32 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
-import { Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
+import { whoAmI } from "@/utils/api";
 
 export const SidebarLayout: React.FC = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+      return;
+    }
+
+    whoAmI()
+      .then((user) => {
+        if (user) {
+          localStorage.setItem("user", JSON.stringify(user));
+        } else {
+          localStorage.clear();
+        }
+      })
+      .catch(() => {
+        console.error("Couldn't get user data");
+        localStorage.clear();
+      });
+  }, [navigate]);
+
   return (
     <>
       <AppSidebar />
