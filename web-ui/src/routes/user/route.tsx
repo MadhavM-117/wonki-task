@@ -1,10 +1,18 @@
 import React from "react";
-import { useFoodWasteData } from "./hooks";
+import { FoodWasteContextProvider, useFoodWasteData } from "./hooks";
 import { DataTable } from "@/components/custom/data-table";
 import { columns } from "./columns";
 
 export const UserHome: React.FC = () => {
-  const data = useFoodWasteData();
+  return (
+    <FoodWasteContextProvider>
+      <FoodWasteTable />
+    </FoodWasteContextProvider>
+  );
+};
+
+const FoodWasteTable = () => {
+  const { data } = useFoodWasteData();
 
   if (!data) return <>no data</>;
 

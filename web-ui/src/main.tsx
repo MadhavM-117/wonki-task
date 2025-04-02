@@ -5,12 +5,14 @@ import "./index.css";
 import { AppRoutes } from "./router.tsx";
 
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { Toaster } from "sonner";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <SidebarProvider>
         <AppRoutes />
+        <Toaster />
       </SidebarProvider>
     </BrowserRouter>
   </StrictMode>,
