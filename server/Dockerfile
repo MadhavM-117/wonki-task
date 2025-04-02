@@ -8,10 +8,6 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install PDM
-RUN pip install pdm
-
-# Copy PDM project files
 COPY pyproject.toml .
 COPY README.md .
 
@@ -20,8 +16,7 @@ COPY wonki_waste_server/ ./wonki_waste_server/
 COPY load_sample_data.py .
 COPY data/ ./data/
 
-# Install dependencies using PDM
-RUN pdm install --no-editable
+RUN pip install . 
 
 # Set environment variables
 ENV PYTHONPATH=/app
@@ -32,4 +27,4 @@ ENV SECRET_KEY=secret
 EXPOSE 8000
 
 # Command to run the application
-CMD ["pdm", "run", "uvicorn", "wonki_waste_server.main:app", "--host", "0.0.0.0"]
+CMD ["uvicorn", "wonki_waste_server.main:app", "--host", "0.0.0.0"]
