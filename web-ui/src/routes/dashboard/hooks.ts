@@ -8,6 +8,7 @@ export const useFoodWasteData = (filter?: FoodWasteFilter) => {
   useEffect(() => {
     const urlFilter = filter
       ? new URLSearchParams(
+          // eslint-disable-next-line
           Object.entries(filter).filter(([_, value]) => value !== undefined),
         )
       : undefined;
