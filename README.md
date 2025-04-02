@@ -47,6 +47,7 @@ Once you've done that, you can:
     1. `postgresql16` as the Database. Easy to run a local instance via docker compose.
     2. As the backend modelling is in Python, having the server be in Python can potentially allow for easier integration in the future.
     3. `FastAPI` as the web framework for building APIs in Python. Fast, easy to learn, and has auto-generated API docs. 
+        We want a stateless server for simplicity, so we will follow `ReST` API guidelines where possible.
     4. `SQLModel` as the ORM as it integrates nicely with FastAPI, postgresql and pydantic (for type validation).
     5. `React` for the front-end. Most popular web framework, good community, and a sea of supporting tools. 
     6. `Typescript` for types in the front-end. Working on a typed language makes it easier to read later.
