@@ -11,5 +11,39 @@ services:
     # volumes:
     #   - ./data/postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
+    networks:
+      - wonki-network
 
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: wonki-server
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+psycopg://wonki:nofoodwaste@postgres/wonki_db
+      - SECRET_KEY=secret
+    restart: unless-stopped
+    networks:
+      - wonki-network
+
+  web-ui:
+    build:
+      context: ./web-ui
+      dockerfile: Dockerfile
+    container_name: wonki-web-ui
+    depends_on:
+      - server
+    ports:
+      - "4173:4173"
+    restart: unless-stopped
+    networks:
+      - wonki-network
+
+networks:
+  wonki-network:
+    driver: bridge
 
