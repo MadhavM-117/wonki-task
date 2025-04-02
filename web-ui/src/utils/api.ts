@@ -1,5 +1,25 @@
 import { API_URL } from "@/constants";
 
+export const login = async (form: FormData) => {
+  form.set("grant_type", "password");
+
+  return await fetch(`${API_URL}/auth/token`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams(form as unknown as URLSearchParams).toString(),
+  })
+    .then((res) => {
+      if (res.ok) return res.json();
+      throw res;
+    })
+    .catch((error) => {
+      console.error("There was an error logging in.", error);
+      return undefined;
+    });
+};
+
 export const whoAmI = async () => {
   const token = localStorage.getItem("token");
 
@@ -11,7 +31,8 @@ export const whoAmI = async () => {
     },
   })
     .then((res) => {
-      return res.json();
+      if (res.ok) return res.json();
+      throw res;
     })
     .catch((e) => {
       console.error(`There was an error fetching user data. ${e}`);
@@ -19,10 +40,39 @@ export const whoAmI = async () => {
     });
 };
 
-export const getAllFoodWaste = async () => {
-  return await fetch(`${API_URL}/food-waste`)
+export const getOwnedFoodWaste = async () => {
+  const token = localStorage.getItem("token");
+
+  if (!token) return undefined;
+
+  return await fetch(`${API_URL}/food-waste/owned`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
     .then((res) => {
-      return res.json();
+      if (res.ok) return res.json();
+      throw res;
+    })
+    .catch((e) => {
+      console.error(`There was an error fetching food waste data. ${e}`);
+      return undefined;
+    });
+};
+
+export const getAllFoodWaste = async () => {
+  const token = localStorage.getItem("token");
+
+  if (!token) return undefined;
+
+  return await fetch(`${API_URL}/food-waste`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      if (res.ok) return res.json();
+      throw res;
     })
     .catch((e) => {
       console.error(`There was an error fetching food waste data. ${e}`);
@@ -31,8 +81,15 @@ export const getAllFoodWaste = async () => {
 };
 
 export const deleteFoodWaste = async (foodwasteId: number) => {
+  const token = localStorage.getItem("token");
+
+  if (!token) return false;
+
   return await fetch(`${API_URL}/food-waste/${foodwasteId}`, {
     method: "delete",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   })
     .then((res) => {
       return res.ok;

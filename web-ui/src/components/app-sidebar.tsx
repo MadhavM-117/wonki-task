@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 import { NavLink } from "react-router";
 import { SidebarUser } from "./custom/sidebar-user";
+import { useAuth } from "./hooks/use-auth";
 
 // Menu items.
 const items = [
@@ -34,6 +35,8 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const { user } = useAuth();
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -56,7 +59,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarUser user={{ username: "alice", full_name: "Alice" }} />
+        <SidebarUser user={user} />
       </SidebarFooter>
     </Sidebar>
   );

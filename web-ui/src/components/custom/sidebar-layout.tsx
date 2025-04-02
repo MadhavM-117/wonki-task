@@ -28,11 +28,13 @@ export const SidebarLayout: React.FC = () => {
           localStorage.setItem("user", JSON.stringify(user));
         } else {
           localStorage.clear();
+          navigate("/login");
         }
       })
       .catch(() => {
         console.error("Couldn't get user data");
         localStorage.clear();
+        navigate("/login");
       });
   }, [navigate]);
 

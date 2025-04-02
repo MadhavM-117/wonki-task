@@ -1,7 +1,7 @@
 import React, { SetStateAction } from "react";
 import { FoodWasteEntry } from "@/models";
 import { useState, useEffect } from "react";
-import { getAllFoodWaste } from "@/utils/api";
+import { getOwnedFoodWaste } from "@/utils/api";
 
 export const FoodWasteContext = React.createContext<{
   data: FoodWasteEntry[] | undefined;
@@ -16,7 +16,7 @@ export const FoodWasteContextProvider: React.FC<{
   const [data, setData] = useState<FoodWasteEntry[] | undefined>();
 
   useEffect(() => {
-    getAllFoodWaste().then(setData);
+    getOwnedFoodWaste().then(setData);
   }, []);
 
   return (

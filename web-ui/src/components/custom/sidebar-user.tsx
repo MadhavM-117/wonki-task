@@ -17,14 +17,16 @@ import {
 } from "@/components/ui/sidebar";
 
 import wonkiLogo from "@/assets/the_wonki_collective_logo.jpg?url";
+import { useNavigate } from "react-router";
+import { UserDetails } from "@/models";
 
 export const SidebarUser: React.FC<{
-  user: {
-    full_name: string;
-    username: string;
-  };
+  user?: UserDetails;
 }> = ({ user }) => {
   const { isMobile } = useSidebar();
+  const navigate = useNavigate();
+
+  if (!user) return <></>;
 
   return (
     <SidebarMenu>
@@ -73,7 +75,12 @@ export const SidebarUser: React.FC<{
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                localStorage.clear();
+                navigate("/login");
+              }}
+            >
               <LogOutIcon />
               Log out
             </DropdownMenuItem>
