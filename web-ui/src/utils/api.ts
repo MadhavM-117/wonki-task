@@ -78,12 +78,13 @@ export const getOwnedFoodWaste = async () => {
     });
 };
 
-export const getAllFoodWaste = async () => {
+export const getAllFoodWaste = async (filter?: URLSearchParams) => {
   const token = localStorage.getItem("token");
+  const params = filter ? `?${filter.toString()}` : "";
 
   if (!token) return undefined;
 
-  return await fetch(`${API_URL}/food-waste`, {
+  return await fetch(`${API_URL}/food-waste${params}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
