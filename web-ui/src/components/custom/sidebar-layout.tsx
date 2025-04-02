@@ -10,11 +10,12 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
-import { Outlet, useNavigate } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router";
 import { whoAmI } from "@/utils/api";
 
 export const SidebarLayout: React.FC = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -49,14 +50,22 @@ export const SidebarLayout: React.FC = () => {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
+                  <BreadcrumbLink href="/">Wonki Waste Tracker</BreadcrumbLink>
                 </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
+                {pathname.length === 1 ? (
+                  <></>
+                ) : (
+                  <>
+                    <BreadcrumbSeparator className="hidden md:block" />
+                    <BreadcrumbItem>
+                      <BreadcrumbPage>
+                        {pathname.endsWith("user")
+                          ? "Manage User Data"
+                          : "Analytics Dashboard"}
+                      </BreadcrumbPage>
+                    </BreadcrumbItem>
+                  </>
+                )}
               </BreadcrumbList>
             </Breadcrumb>
           </div>
